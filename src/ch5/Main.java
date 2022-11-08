@@ -10,7 +10,7 @@ import java.util.Scanner;
  double lined list의 인터페이스가 interface LinkedList로 선언되었다.
 
  Shape을 linked list로 관리하기 위해서  ShapeList라는 클래스를 작성하라.
- ShapeList는 인터페이스 LinkedList를 구현하며, Linked list의 데이터는  Node 클래스를 이용하여 관리한다. 
+ ShapeList는 인터페이스 LinkedList를 구현하며, Linked list의 데이터는  Node 클래스를 이용하여 관리한다.
  Node 클래스는 리스트 구현을 위해서 전(prev), 후(next)를 연결할 수 있는 레퍼런스가 멤버 변수로 있으며,
  Shape 데이터를 저장할 value라는 멈버 변수가 있다.
 
@@ -20,7 +20,7 @@ import java.util.Scanner;
 
  자바의 모든 클래스는 최상위 클래스로 Object 클래스를 상속 받으며,
  Object 클래스에는 객체가 자신의 정보를 출력하기 위한  public String toString() 메소드가 있다.
- 
+
  ShapeList, Line, Rect, Circle 등의 클래스에 자신의 정보를 출력하기 위해서
  Object 클래스의  public String toString() 메소드 오버라이딩 해서 작성한다.
 ****************************************************************************/
@@ -141,7 +141,7 @@ class Point {
 }
 
 //*****************************************************************************
-// Shape의 추상 클래스 선언 
+// Shape의 추상 클래스 선언
 abstract class Shape {
 	public abstract String draw(); // 정보 출력
 
