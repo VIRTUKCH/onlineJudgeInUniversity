@@ -252,7 +252,7 @@ class ShapeList implements LinkedList {
 	private Vector<Shape> vector;
 
 	ShapeList() {
-		vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
+		this.vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
 	}
 
 	public ShapeList(Shape arr[]) {
@@ -403,7 +403,9 @@ class GraphicEditor {
 	}
 
 	public GraphicEditor(Factory factory, Scanner scanner) {
+		this.factory = factory;
 		list = factory.generateShapeList(); // list 초기화
+		this.scanner = scanner;
 	}
 
 	public void run() {
