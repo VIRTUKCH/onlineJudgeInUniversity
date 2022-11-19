@@ -1,0 +1,166 @@
+/******************************************************************************
+ * 문제 5-2
+ ******************************************************************************/
+// 새로운 프로젝트를 만든 후 새로운 클래스 Main를 만들어 Main.java 소스파일을 만들어라.
+// 그런 후 아래 소스코드를 복사해 소스파일에 삽입하라.
+//
+// 아래 프로그램에서 각 인터페이스 또는 클래스들의 계층적 구조는 다음과 같다. 
+//
+//     Volumn(인터) Channel(인터페이스)
+//         \       /
+//          TV(인터페이스)     Internet(추상클래스)
+//              \            /
+//               \          /
+//               SmartTV(추상클래스)
+//                    |
+//               ------------
+//               |          |
+//             LGTV     SamsungTV
+//         
+// LGTV와 SamsungTV는 SmartTV의 모든 메소드들을 
+// 기능은 동일하게 지원하면서도 구현은 서로 다르게 한 것이다.
+//
+// 구현할 사항: 위 그림을 참조하여 TV, SmartTV의 상속 및 구현 등의 적절한 조치를 취하고,
+//           또한 실행결과를 참고하여 LGTV와 SamsungTV 클래스를 완성하라.
+//
+//=============================================================================
+
+// 경고: 아래 각 클래스의 멤버 변수는 더 이상 추가하지 말고 
+//      기존 멤버의 접근지정자도 수정하지 말것.
+
+import java.util.*;
+
+interface Volumn { // 추가적으로 구현할 것은 없음
+    void setVolumn(int volumn); // "setVolumn: 6 -- {LG}" 출력
+    // "{LG}"는 회사 로고이며 출력 양식은 회사마다 다른 수 있음
+    // 삼성의 경우 "[SM] ** setVolumn: 3" 처럼 출력될 수 있음
+}
+
+interface Channel { // 추가적으로 구현할 것은 없음
+    void setChannel(int chanel); // "setChannel: 56 -- {LG}" 출력
+}
+
+interface TV { 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String getLogo();
+    default void display() { System.out.println(getLogo()+" TV is displayed"); }
+    // "{LG} TV is displayed" 출력
+    // "[SM] TV is displayed" 출력
+}
+
+abstract class Internet { // 추가적으로 구현할 것은 없음
+    private String ipAddress;
+    Internet(String ipAddress) { this.ipAddress = ipAddress; }
+    String getIPAddress()      { return ipAddress; }
+    abstract void connectToServer(); // "connectToServer: 186.114.65.105 -- {LG}" 출력
+}
+
+abstract class SmartTV { 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    SmartTV(String ipAddress) { super(ipAddress); }
+}
+
+class LGTV { 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String logo;
+
+    LGTV(String logo, String ipAddress);
+
+    문제: 생성자 및 필요한 멤버 함수들 구현하라.
+
+}
+
+class SamsungTV { // 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String logo;
+
+    SamsungTV(String logo, String ipAddress);
+
+    문제: 생성자 및 필요한 멤버 함수들 구현하라.
+
+}
+
+// 추가적으로 구현할 것은 없음
+class Controller {
+    static void connect(Internet i)               { i.connectToServer(); } // 인터넷 연결
+    static void set_volumn(Volumn v, int value)   { v.setVolumn(value); }  // 볼률 설정
+    static void set_channel(Channel c, int value) { c.setChannel(value); } // 채널 번호 설정
+    static void display(TV tv)                    { tv.display(); }        // TV 보여 줌
+    
+    // 인터넷 연결하고, 볼륨, 채널 설정하고 TV 보여 줌
+    static void powerON(SmartTV stv, int volumn, int channel) {
+        System.out.println(stv.getLogo());  // {LG}
+        connect(stv);              // connectToServer: 187.25.104.104 -- {LG}
+        set_volumn(stv, volumn);   // setVolumn: 14 -- {LG} 
+        set_channel(stv, channel); // setChannel: 4 -- {LG} 
+        display(stv);              // {LG} TV is displayed 
+    }
+    static String getIPaddress(Random rand) {  // IP 주소 자동 생성 후 리턴
+        return rand.nextInt(256)+"."+rand.nextInt(256)+"."+rand.nextInt(256)+"."+rand.nextInt(256);
+    }
+}
+
+// 추가적으로 구현할 것은 없음
+public class Main {
+    public static void main(String[] args) 
+    {
+        Scanner in = new Scanner(System.in);
+        // 난수 발생을 위한 seed 값 입력
+        System.out.print("random number seed[1~99]? ");
+        Random rnd = new Random(in.nextLong());
+        System.out.println("-----------------"); 
+             
+        System.out.print("LG TV Logo? ");
+        String logo = in.next(); // LG TV 로고를 입력
+        String ipAddr = Controller.getIPaddress(rnd); // IP 주소 자동 생성
+        int volumn = rnd.nextInt(20), channel = rnd.nextInt(100); // 볼륨, 채널 값 자동 생성
+        
+        LGTV lg = new LGTV(logo, ipAddr);        // LG TV 객체 생성
+        Controller.powerON(lg, volumn, channel); // 인터넷 연결, 볼륨, 채널 설정하고 TV 보여 줌
+        System.out.println("-----------------"); 
+        
+        System.out.print("Samsung TV Logo? ");
+        logo = in.next(); // Samsung TV 로고를 입력
+        ipAddr = Controller.getIPaddress(rnd); // IP 주소 자동 생성
+        volumn = rnd.nextInt(20); channel = rnd.nextInt(100);  // 볼륨, 채널 값 자동 생성
+        
+        SamsungTV sm = new SamsungTV(logo, ipAddr);// SamsungTV TV 객체 생성
+        Controller.powerON(sm, volumn, channel);   // 인터넷 연결, 볼륨, 채널 설정하고 TV 보여 줌
+             
+        in.close();
+    }
+}
+
+===============================================================================
+== [문제 5-2] 실행 결과 - 1
+===============================================================================    
+random number seed[1~99]? 1 // 1: 사용자 입력
+-----------------
+LG TV Logo? {LG}                      // {LG}: 사용자 입력
+{LG}
+connectToServer: 187.25.104.104 -- {LG}
+setVolumn: 14 -- {LG}
+setChannel: 4 -- {LG}
+{LG} TV is displayed
+-----------------
+Samsung TV Logo? [SM]            // [SM]: 사용자 입력
+[SM]
+[SM] ** connectToServer: 85.168.247.181
+[SM] ** setVolumn: 9
+[SM] ** setChannel: 73
+[SM] TV is displayed
+
+===============================================================================
+== [문제 5-2] 실행 결과 - 2
+===============================================================================    
+random number seed[1~99]? 2
+-----------------
+LG TV Logo? llgg
+llgg
+connectToServer: 187.75.230.1 -- llgg
+setVolumn: 9 -- llgg
+setChannel: 50 -- llgg
+llgg TV is displayed
+-----------------
+Samsung TV Logo? ssmm
+ssmm
+ssmm ** connectToServer: 252.8.219.236
+ssmm ** setVolumn: 14
+ssmm ** setChannel: 86
+ssmm TV is displayed

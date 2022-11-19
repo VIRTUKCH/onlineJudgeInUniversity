@@ -1,0 +1,138 @@
+import java.util.*;
+
+interface Volumn { // 추가적으로 구현할 것은 없음
+    void setVolumn(int volumn); // "setVolumn: 6 -- {LG}" 출력
+    // "{LG}"는 회사 로고이며 출력 양식은 회사마다 다른 수 있음
+    // 삼성의 경우 "[SM] ** setVolumn: 3" 처럼 출력될 수 있음
+}
+
+interface Channel { // 추가적으로 구현할 것은 없음
+    void setChannel(int chanel); // "setChannel: 56 -- {LG}" 출력
+}
+
+interface TV extends Volumn, Channel { // 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String getLogo();
+    default void display() { System.out.println(getLogo()+" TV is displayed"); }
+    // "{LG} TV is displayed" 출력
+    // "[SM] TV is displayed" 출력
+}
+
+abstract class Internet { // 추가적으로 구현할 것은 없음
+    private String ipAddress;
+    Internet(String ipAddress) { this.ipAddress = ipAddress; }
+    String getIPAddress()      { return ipAddress; }
+    abstract void connectToServer(); // "connectToServer: 186.114.65.105 -- {LG}" 출력
+}
+
+abstract class SmartTV extends Internet implements TV{ // 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    SmartTV(String ipAddress) { super(ipAddress); }
+}
+
+class LGTV extends SmartTV { // 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String logo;
+
+    LGTV(String logo, String ipAddress) {
+    	super(ipAddress);
+    	this.logo = logo;
+    }
+
+	@Override
+	public String getLogo() {
+		return logo;
+	}
+
+	@Override
+	public void setVolumn(int volumn) {
+		System.out.println("setVolumn: " + volumn + " -- " + logo);
+	}
+
+	@Override
+	public void setChannel(int chanel) {
+		System.out.println("setChannel: " + chanel + " -- " + logo);
+	}
+
+	@Override
+	void connectToServer() {
+		System.out.println("connectToServer: " + getIPAddress() + " -- " + logo);
+	}
+}
+
+class SamsungTV extends SmartTV { // 문제: 위 계층구조 그림을 참조하여 상속 및 구현 등의 적절한 조치를 취하라.
+    String logo;
+
+    SamsungTV(String logo, String ipAddress) {
+    	super(ipAddress);
+    	this.logo = logo;
+    }
+
+	@Override
+	public String getLogo() {
+		return logo;
+	}
+
+	@Override
+	public void setVolumn(int volumn) {
+		System.out.println(logo + " ** setVolumn: " + volumn);
+	}
+
+	@Override
+	public void setChannel(int chanel) {
+		System.out.println(logo + " ** setChannel: " + chanel);
+	}
+
+	@Override
+	void connectToServer() {
+		System.out.println(logo + " ** connectToServer: " + getIPAddress());
+	}
+}
+
+// 추가적으로 구현할 것은 없음
+class Controller {
+    static void connect(Internet i)               { i.connectToServer(); } // 인터넷 연결
+    static void set_volumn(Volumn v, int value)   { v.setVolumn(value); }  // 볼률 설정
+    static void set_channel(Channel c, int value) { c.setChannel(value); } // 채널 번호 설정
+    static void display(TV tv)                    { tv.display(); }        // TV 보여 줌
+    
+    // 인터넷 연결하고, 볼륨, 채널 설정하고 TV 보여 줌
+    static void powerON(SmartTV stv, int volumn, int channel) {
+        System.out.println(stv.getLogo());  // {LG}
+        connect(stv);              // connectToServer: 187.25.104.104 -- {LG}
+        set_volumn(stv, volumn);   // setVolumn: 14 -- {LG} 
+        set_channel(stv, channel); // setChannel: 4 -- {LG} 
+        display(stv);              // {LG} TV is displayed 
+    }
+    static String getIPaddress(Random rand) {  // IP 주소 자동 생성 후 리턴
+        return rand.nextInt(256)+"."+rand.nextInt(256)+"."+rand.nextInt(256)+"."+rand.nextInt(256);
+    }
+}
+
+// 추가적으로 구현할 것은 없음
+public class Main {
+    public static void main(String[] args) 
+    {
+        Scanner in = new Scanner(System.in);
+        // 난수 발생을 위한 seed 값 입력
+        System.out.print("random number seed[1~99]? ");
+        Random rnd = new Random(in.nextLong());
+        System.out.println("-----------------"); 
+             
+        System.out.print("LG TV Logo? ");
+        String logo = in.next(); // LG TV 로고를 입력
+        String ipAddr = Controller.getIPaddress(rnd); // IP 주소 자동 생성
+        int volumn = rnd.nextInt(20), channel = rnd.nextInt(100); // 볼륨, 채널 값 자동 생성
+        
+        LGTV lg = new LGTV(logo, ipAddr);        // LG TV 객체 생성
+        Controller.powerON(lg, volumn, channel); // 인터넷 연결, 볼륨, 채널 설정하고 TV 보여 줌
+        System.out.println("-----------------"); 
+        
+        System.out.print("Samsung TV Logo? ");
+        logo = in.next(); // Samsung TV 로고를 입력
+        ipAddr = Controller.getIPaddress(rnd); // IP 주소 자동 생성
+        volumn = rnd.nextInt(20); channel = rnd.nextInt(100);  // 볼륨, 채널 값 자동 생성
+        
+        SamsungTV sm = new SamsungTV(logo, ipAddr);// SamsungTV TV 객체 생성
+        Controller.powerON(sm, volumn, channel);   // 인터넷 연결, 볼륨, 채널 설정하고 TV 보여 줌
+             
+        in.close();
+    }
+}

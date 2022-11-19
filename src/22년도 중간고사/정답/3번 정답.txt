@@ -1,0 +1,99 @@
+import java.util.Scanner;
+
+class Point {
+    public int x, y;  // Point 클래스의 멤버변수 선언
+    public Point(int x, int y) {
+    	this.x = x;
+    	this.y = y;
+    }
+    // 좌표 이동하는 함수 정의. x축으로 dx만큼 이동하고 y축으로 dy만큼 이동한다.
+    public void moveTo(int dx, int dy) {
+    	this.x += dx;
+    	this.y += dy;
+    }
+}
+
+class Rect {
+	public Point loc; // 좌표를 저장하기 위한 Point 객체변수 loc 선언. 접근자는 public으로 함.
+	public int width, height; // 사각형의 가로 길이, 세로 길이 저장하는 정수변수 width, height 선언. 접근자는 public으로 함.
+	private int size; // 사각형의 면적을 저장하는 정수변수 size 선언. 접근자는 private으로 함.
+	
+	// Rect 생성자 정의
+    Rect() {
+    	loc = new Point(0,0);
+    	width = height = 5;
+    	size = width * height;
+    }
+
+    public Rect(int x, int y, int w, int h) {
+    	this.loc = new Point(x,y);
+    	this.width = w;
+    	this.height = h;
+    	size = this.width*this.height;
+	}
+
+	// show() 메소드
+    public void show() {
+        calcSize();  // 면적 계산하여 size에 저장하는 함수로서 Rect 클래스 내에서만 호출 가능하도록 접근자를 지정해서 선언해야 함.
+        System.out.println("# Location : (" + loc.x + "," + loc.y + ")");
+        System.out.println("  Width = " + width + ", Height = " + height + " Size = " + size);
+    }
+    
+    // calcSize() 메소드 정의하기
+    private void calcSize() {
+    	
+	}
+
+    // size 변수 값을 반환하는 함수
+	public int getSize() {
+		return this.size;
+	}
+}
+public class Main{
+    public static void main(String[] args) {
+        Scanner in = new Scanner(System.in);
+        
+        // 3개의 Rect 객체 배열 생성. 배열변수명 rects
+        Rect[] rects = new Rect[3];
+        
+        // 3개의 Rect 객체를 생성하여 배열에 저장하기. 
+        for(int i=0; i<3; i++) {
+            int x, y, w, h;
+            System.out.print("X Y Width Height : ");
+            x = in.nextInt();
+            y = in.nextInt();
+            w = in.nextInt();
+            h = in.nextInt();
+            
+            // Rect 객체를 생성하여 rects 배열에 저장한다. 이때 x,y,w,h를 전달하여 Rect 생성자를 호출하여 객체를 생성하여야 함.
+            rects[i] = new Rect(x,y,w,h);
+        }
+        
+        // 3개의 Rect 객체 출력하기
+        for (int i = 0; i < rects.length; i++) {
+        	rects[i].show();
+        	}
+        
+        // 2번째 Rect 객체의 위치를 x축으로 3 y축으로 -3만큼 이동하기
+        rects[1].loc.moveTo(3, -3);
+        
+        // 2번째 Rect 객체 출력하기
+        rects[1].show();
+    }
+}
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    

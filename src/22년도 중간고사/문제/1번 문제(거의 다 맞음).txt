@@ -1,0 +1,80 @@
+// [라이브코딩 2장 문제]
+
+/******************************************************************************
+ * 문제 2-1
+ ******************************************************************************/
+/*  사칙연산을 구현하라.
+    연산자 +, - , *, /  네가지로 하고 피연산자는 모두 정수로 한다.
+    연산자 입력 부분에 사칙연산자 이외의 문자 또는 숫자가 입력되면 종료한다.
+
+
+1. switch문을 이용해서 사칙연산을 수행하는 부분을 작성하라    
+    
+2. 아래의 2 가지 예외 처리를 하는 부분을 작성하라.
+    1) / 연산에서 분모가 0인 경우
+    2) 피연산자(숫자) 부분에 숫자 이외의 문자 등이 입력되는 경우
+    
+
+* 아래의 입력 방버을 참고한다.
+    피연산지 입력은 int op1 = scanner.nextInt(); 형태를 이용해서 입력
+    연산자 입력은   char op = scanner.next().charAt(0); 형태를 이용해서 입력
+    
+    
+* 입/출력 예     
+   (출력),  (입력)은 설명을 위한 단어임
+  
+(출력)Enter mathematical expression:(입력)4 - 1(출력)Result:3
+(출력)Enter mathematical expression:(입력)3 + 4(출력)Result:7
+(출력)Enter mathematical expression:(입력)5 / 4(출력)Result:1
+(출력)Enter mathematical expression:(입력)4 * 3(출력)Result:12
+(출력)Enter mathematical expression:(입력)e - 4(출력)Input mismatch
+(출력)Enter mathematical expression:(입력)6 - a(출력)Input mismatch
+(출력)Enter mathematical expression:(입력)6 / 0(출력)Cannot divide by 0
+(출력)Enter mathematical expression:(입력)6 ^ 4(출력)Good Bye  
+ */
+
+
+
+import java.util.Scanner;
+import java.util.InputMismatchException;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		Boolean bOnLoop = true;
+		while (bOnLoop) {
+    			try {
+    		    	System.out.print("Enter mathematical expression:");
+    		    
+    		    
+    		    	// 피연산자, 연산자 입력 
+			//==================================
+                                    //  피연산자, 연산자 입력
+			//==================================
+    	    
+        			int res = 0;     // 결과값을 저장할 변수
+        	
+        			switch(op) {
+        				
+
+			//==================================
+                                    // 사칙 연산 부분 추가
+			//==================================
+        			}
+        		
+	        		if (bOnLoop) System.out.println("Result:" + res);
+    		
+    			}
+
+
+			//==================================
+                                   //  예외 처리하는 부분 추가
+			//==================================
+
+		}
+		    System.out.println("Good Bye");	
+		    scanner.close();
+	}
+}

@@ -1,0 +1,54 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+
+public class Main {
+
+	public static void main(String[] args) {
+		Scanner scanner = new Scanner(System.in);
+		
+		Boolean bOnLoop = true;
+		while (bOnLoop) {
+			try {
+				System.out.print("Enter mathematical expression:");
+    		   int op1 = scanner.nextInt();
+    		   char op = scanner.next().charAt(0);
+    		   int op2 = scanner.nextInt();
+    		    	
+        		int res = 0;     // 결과값을 저장할 변수
+        		switch(op) { // 사칙연산 부분
+	        		case '+':
+	        			res = op1 + op2;
+	        			break;
+	        		
+	        		case '-':
+	        			res = op1 - op2;
+	        			break;
+	        			
+	        		case '*':
+	        			res = op1 * op2;
+	        			break;
+	        			
+	        		case '/':
+	        			res = op1 / op2;
+	        			break;
+	        			
+	        		default:
+	        			System.out.println("Good Bye");
+	        			return;
+        		}
+        		
+        		if (bOnLoop)
+        			System.out.println("Result:" + res);
+        		
+			} catch(InputMismatchException e) {
+				System.out.println("Input mismatch");
+				scanner.nextLine();
+			} catch(ArithmeticException e) {
+				System.out.println("Cannot divide by 0");
+				scanner.nextLine();
+			}
+		}
+		System.out.println("Good Bye");
+		scanner.close();
+	}
+}

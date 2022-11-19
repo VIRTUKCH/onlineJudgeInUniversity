@@ -1,0 +1,172 @@
+import java.util.InputMismatchException;
+import java.util.Scanner;
+import java.lang.NegativeArraySizeException;
+
+class TriangularMaxtrix{
+    static final int UPPERTRIMATRIX = 0;  // 상부삼각행렬
+    static final int LOWERTRIMATRIX = 1;  // 하부삼각행렬
+    
+    // 상부삼각행열 생성해주는 메소드
+    static int [][] UpperTM(int n) {             
+        try {
+        	int [][] upperMaxtrix = new int [n] [];    // 행 생성
+        	for (int row = 0; row < n ; row++) {
+        		upperMaxtrix[row] = new int [n-row];   // 각  행의 열 생성
+        		// 갈수록 적어지는 행의 개수 ex) 4 0 -> 4 / 3 / 2 / 1
+        		
+        		for (int col=0; col < upperMaxtrix[row].length; col++)
+        			upperMaxtrix[row][col] = row+col+1;
+        		}
+        	return upperMaxtrix;
+        	} catch (NegativeArraySizeException e){
+        		System.out.println("Enter a POSITIVE  integer");
+        		return null;
+        	}
+        }
+    
+//    하부삼각행열 생성해주는 메소드 // 이름은 신경 말고 짜자 이번만.
+    static  int [][] LowerTM(int n) {
+    	try {
+        	int [][] upperMaxtrix = new int [n] [];    // 행 생성
+        	for (int row = 0; row < n ; row++) {
+        		upperMaxtrix[row] = new int [row+1];   // 각  행의 열 생성
+        		// 갈수록 적어지는 행의 개수 ex) 4 0 -> 4 / 3 / 2 / 1
+        		
+        		for (int col=0; col < upperMaxtrix[row].length; col++)
+        			upperMaxtrix[row][col] = row+1;
+        		}
+        	return upperMaxtrix;
+        	} catch (NegativeArraySizeException e){
+        		System.out.println("Enter a POSITIVE  integer");
+        		return null;
+        	}
+    }  
+    
+    
+
+    // 상부삼각행열의 전치 행렬구하는 함수
+    // inputMatrix : 입력 (상부삼각행렬)
+    // outputMatrix : 출력 (하부삼각행렬)
+     
+    static void UpperTransposeM(int [][] inputMatrix, int [][] outputMatrix) {
+    	outputMatrix = inputMatrix;
+    }
+    
+    
+    // 하부삼각행렬의 전치 행렬구하는 함수
+    // inputMatrix : 입력 (하부삼각행렬)
+    // outputMatrix : 출력 (상부삼각행렬)
+    static void LowerTransposeM(int [][] inputMatrix, int [][] outputMatrix) {
+//        for (int row=0; row < inputMatrix.length; row++)
+//            for (int col=0; col < inputMatrix[row].length; col++) 
+//                outputMatrix[col][row-col] = inputMatrix[row][col];
+    	outputMatrix = inputMatrix;
+    }
+    
+    
+    // 삼각행렬을 출력해주는 함수
+    // inputmatrix : 삼삼각행렬
+    // nType : 상부함각행렬, 하부삼각행렬 구분을 위한 구분 행렬값
+    //         상부삼각행렬  : 0
+	//         하부삼각행렬  : 1 
+    static void printMatrix(int [][] inputmatrix, int nType){
+        for (int row=0; row < inputmatrix.length; row++){
+//        	상부감각행렬인 경우 앞부분에 공백을 출력하는 부분 작성
+        	if(nType==0) {
+        		for(int j=0; j < row; j++) {
+        			System.out.print("\t");
+        		}
+        	}
+        	
+            for (int col=0; col < inputmatrix[row].length; col++)
+                System.out.print(inputmatrix[row][col] + "\t");
+            
+            // 하부감각행렬의 경우 뒷부분에 공백을 출력 (본 예제에서는 필요없으나, 0을 출력하고 싶은 경우 사용)
+            if (nType == LOWERTRIMATRIX) {
+                for ( int nZero=0 ; nZero < (inputmatrix.length -inputmatrix[row].length); nZero++ )
+                   System.out.print("\t");
+                }
+            System.out.println("");
+        }
+    }
+}
+
+
+
+public class Main
+{
+	public static void main(String[] args) {
+		int nSize = 0;
+		int nType = 0;
+		int [][] nUMatrix;
+		int [][] nLMatrix;
+
+		Scanner scanner = new Scanner(System.in);
+		
+		while (true) {
+		    // 사용자로 부터 행렬의 크기 및 상부삼각행렬, 하부삼각행렬 타입 입력 받기
+		    // 상부삼각행렬  : 0
+		    // 하부삼각행렬  : 1 
+    			System.out.print("Enter 0 0 to exit. Enter matrix size and type >>");
+    		
+    			try{
+    		   	nSize = scanner.nextInt();    // 행렬 크기 
+    		   	nType = scanner.nextInt();    // 삼각행렬 타입
+
+    			} catch (InputMismatchException e) {
+    				System.out.println("Enter an integer");
+    				scanner.nextLine();
+    				continue;
+    			}
+    		
+    			if (nSize ==0 && nType==0)   // 종료처리 
+    			{ 
+    		  	 	 System.out.println("Good Bye");
+    		    		break;
+    			}
+    		
+    	   		switch (nType) {   // 행렬 타입에 따른 행렬 생성, 행렬값 출력, 전치 행렬 구하기
+    	   		
+    	   		case  TriangularMaxtrix.UPPERTRIMATRIX :  // 상부삼각행렬
+    	   			nUMatrix = TriangularMaxtrix.UpperTM(nSize);    //상부 삼각행렬 생성
+    	   			if (nUMatrix != null) {
+    	   				nLMatrix = TriangularMaxtrix.LowerTM(nSize);    //하부 삼각행렬 생성
+                        
+    	   				System.out.println();
+    	   				System.out.println("Upper triangular matrix");
+    	   				TriangularMaxtrix.printMatrix(nUMatrix,  TriangularMaxtrix.UPPERTRIMATRIX);
+								
+						TriangularMaxtrix.UpperTransposeM(nUMatrix, nLMatrix);
+						
+						System.out.println();
+						System.out.println("Transpose matrix");
+						TriangularMaxtrix.printMatrix(nLMatrix, TriangularMaxtrix.LOWERTRIMATRIX);
+					}
+					break;
+				case TriangularMaxtrix.LOWERTRIMATRIX:  // 하부 삼각행렬
+   
+  	                			nLMatrix = TriangularMaxtrix.LowerTM(nSize);	
+  	                			if (nLMatrix != null) {   
+						nUMatrix = TriangularMaxtrix.UpperTM(nSize);        	            				
+                        
+                       					System.out.println();
+                         				System.out.println("Lower triangular matrix");
+                        				TriangularMaxtrix.printMatrix(nLMatrix, TriangularMaxtrix.LOWERTRIMATRIX);
+        	            
+        	            				TriangularMaxtrix.LowerTransposeM(nLMatrix, nUMatrix);
+        	            
+        	     				       	System.out.println();
+                    				    	System.out.println("Transpose matrix");
+                        				TriangularMaxtrix.printMatrix(nUMatrix, TriangularMaxtrix.UPPERTRIMATRIX);
+  	              			  }
+    	         				   break;
+                			 default :
+                 
+                  			  System.out.println("Matrix type mismatch");
+                    
+    	  		  }
+    		}
+    	
+    		scanner.close();
+	}
+}

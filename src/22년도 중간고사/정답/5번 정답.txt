@@ -1,0 +1,104 @@
+import java.util.*;
+
+// Person의 추상 클래스 선언 
+abstract class Person {
+    private int id;       // 주민등록번호중 생년월일만 저장
+
+    public Person(int id) { this.id = id; }
+    public abstract void whatAreYouDoing(); // 지금 무얼하고 있니?
+    public void whoAreYou() {  System.out.print(id+":"); }
+}
+
+//문제: Person 클래스 상속하여 Student 클래스를 작성하라.
+class Student extends Person {
+    private double gpa; // 학점 평균 평점
+
+    // 생성자 구현
+    // 생성자 매개변수는 아래 getPersons() 내의 Person[] persons을 참조하라.
+    Student(int id, double gpa) {
+    	super(id);
+    	this.gpa = gpa;
+    }
+    
+    // 멤버 메소드 구현
+    @Override
+    public void whatAreYouDoing() {
+    	System.out.println("Student:I am studying and my GPA is " + gpa + ".");
+    }
+    
+    @Override
+    public void whoAreYou() {
+    	System.out.print("Student:");
+    	super.whoAreYou();
+    	System.out.println(gpa);
+    }
+}
+
+//문제: Person 클래스 상속하여 Employee 클래스를 작성하라.
+class Employee extends Person {
+    private String company; // 근무하는 회사명
+    
+    // 생성자 구현 // 생성자 매개변수는 아래 getPersons() 내의 Person[] persons을 참조하라.
+    Employee(int id, String company) {
+    	super(id);
+    	this.company = company;
+    }
+    
+    // 멤버 메소드 구현
+    @Override
+    public void whatAreYouDoing() {
+    	System.out.println("Employee:I am working in " + company + ".");
+    }
+    
+    @Override
+    public void whoAreYou() {
+    	System.out.print("Employee:");
+    	super.whoAreYou();
+    	System.out.println(company);
+    }
+}
+
+public class Main {
+
+    // 배열 persons[] 내의 객체들을 임의의 순서로 재배치한 후 persons을 리턴함 
+    // 이 함수 코드를 이해하지 못해도 상관없음
+    public static Person[] getPersons(Scanner in) {
+        Person[] persons = { // Student와 Person의 객체 생성
+                new Student (20021130, 4.2),       // (id, gpa)
+                new Student (20011029, 3.8),
+                new Employee(19990928, "Samsung"), // (id, company)
+                new Employee(19980827, "Hyundai"),
+        };
+        
+        ArrayList< Person > arrList = new ArrayList< Person >();
+        for (Person p: persons) arrList.add(p);
+        
+        System.out.print("random number seed[1~99]? ");
+        Collections.shuffle(arrList, new Random(in.nextLong()));
+        
+        return arrList.toArray(persons); // 객체들이 재배치된 persons을 리턴함
+    }
+
+    public static void main(String[] args) 
+    {
+        Scanner in = new Scanner(System.in);
+        Person[] persons = getPersons(in); // Student와 Employee 객체들의 배열을 생성함 
+
+        while(true) {
+            System.out.print("\n0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> ");
+            int input = in.nextInt();
+            if (input == 0) break;
+            switch (input) {
+            case 1: 
+                    for (Person p: persons) 
+                        p.whatAreYouDoing();
+                    break;
+            case 2: 
+                    for (Person p: persons) 
+                        p.whoAreYou();    
+                    break;
+            }
+        }
+        in.close();
+    }
+}

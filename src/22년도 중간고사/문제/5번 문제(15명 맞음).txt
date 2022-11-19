@@ -1,0 +1,122 @@
+/******************************************************************************
+ * 문제 5-1
+ ******************************************************************************/
+// 새로운 프로젝트를 만든 후 새로운 클래스 Main를 만들어 Main.java 소스파일을 만들어라.
+// 그런 후 아래 소스코드를 복사해 소스파일에 삽입하라.
+//
+// main()에서 Student와 Employee 객체들을 배열 Person[] persons에 저장하고 있다가
+// 사용자의 메뉴 선택에 따라 모든 객체들을 화면에 보여준다. 
+//
+// 구현할 사항: Person을 상속한 Student, Employee 클래스를 구현하라.
+//
+//=============================================================================
+
+// 경고: 아래 각 클래스의 멤버 변수는 더 이상 추가하지 말고 
+//      기존 멤버들의 접근지정자도 수정하지 마라.
+
+import java.util.*;
+
+// Person의 추상 클래스 선언 
+abstract class Person {
+    private int id;       // 주민등록번호중 생년월일만 저장
+
+    public Person(int id) { this.id = id; }
+    public abstract void whatAreYouDoing(); // 지금 무얼하고 있니?
+    public void whoAreYou() {  System.out.print(id+":"); }
+}
+
+문제: Person 클래스 상속하여 Student 클래스를 작성하라.
+class Student extends Person {
+    private double gpa; // 학점 평균 평점
+    
+    생성자 및 필요한 멤버 메소드 구현
+    생성자 매개변수는 아래 getPersons() 내의 Person[] persons을 참조하라.
+}
+
+문제: Person 클래스 상속하여 Employee 클래스를 작성하라.
+class Employee extends Person {
+    private String company; // 근무하는 회사명
+    
+    생성자 및 필요한 멤버 메소드 구현
+    생성자 매개변수는 아래 getPersons() 내의 Person[] persons을 참조하라.
+}
+
+public class Main {
+
+    // 배열 persons[] 내의 객체들을 임의의 순서로 재배치한 후 persons을 리턴함 
+    // 이 함수 코드를 이해하지 못해도 상관없음
+    public static Person[] getPersons(Scanner in) {
+        Person[] persons = { // Student와 Person의 객체 생성
+                new Student (20021130, 4.2),       // (id, gpa)
+                new Student (20011029, 3.8),
+                new Employee(19990928, "Samsung"), // (id, company)
+                new Employee(19980827, "Hyundai"),
+        };
+        ArrayList< Person > arrList = new ArrayList< Person >();
+        for (Person p: persons) arrList.add(p);
+        System.out.print("random number seed[1~99]? ");
+        Collections.shuffle(arrList, new Random(in.nextLong()));
+        return arrList.toArray(persons); // 객체들이 재배치된 persons을 리턴함
+    }
+
+    public static void main(String[] args) 
+    {
+        Scanner in = new Scanner(System.in);
+        Person[] persons = getPersons(in); // Student와 Employee 객체들의 배열을 생성함 
+
+        while(true) {
+            System.out.print("\n0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> ");
+            int input = in.nextInt();
+            if (input == 0) break;
+            switch (input) {
+            case 1: 
+                    for (Person p: persons) 
+                        p.whatAreYouDoing();
+                    break;
+            case 2: 
+                    for (Person p: persons) 
+                        p.whoAreYou();    
+                    break;
+            }
+        }
+        in.close();
+    }
+}
+
+===============================================================================
+== [문제 5-1] 실행 결과 - 1
+===============================================================================    
+random number seed[1~99]? 1 // 사용자 입력
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 1 // 사용자 입력
+Employee:I am working in Hyundai.
+Student:I am studying and my GPA is 4.2.
+Student:I am studying and my GPA is 3.8.
+Employee:I am working in Samsung.
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 2 // 사용자 입력
+Employee:19980827:Hyundai
+Student:20021130:4.2
+Student:20011029:3.8
+Employee:19990928:Samsung
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 0 // 사용자 입력
+
+===============================================================================
+== [문제 5-1] 실행 결과 - 2
+===============================================================================    
+random number seed[1~99]? 10 // 사용자 입력
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 1 // 사용자 입력
+Student:I am studying and my GPA is 3.8.
+Employee:I am working in Hyundai.
+Student:I am studying and my GPA is 4.2.
+Employee:I am working in Samsung.
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 2 // 사용자 입력
+Student:20011029:3.8
+Employee:19980827:Hyundai
+Student:20021130:4.2
+Employee:19990928:Samsung
+
+0.exit 1.WhatAreYouDoing? 2.WhoAreYou? >> 0 // 사용자 입력
