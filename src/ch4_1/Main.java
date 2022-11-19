@@ -1,4 +1,4 @@
-package ch4;
+package ch4_1;
 
 class Menu1 {
 	private int id; // 메뉴의 번호
@@ -92,7 +92,7 @@ class Menuboard1 {
 	}
 }
 
-public class Main1 {
+public class Main {
 	public static void main(String[] args) {
 		Menuboard1 mboard = Menuboard1.makeBoard(); // makeBoard는 Static메서드 + Menuboard1를 반환해야 함. + private 생성자
 		mboard.print(); //

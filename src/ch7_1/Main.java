@@ -1,4 +1,4 @@
-package ch7;
+package ch7_1;
 
 import java.util.Scanner;
 import java.util.Vector;
