@@ -31,6 +31,20 @@ enum SHAPE_TYPE {
 	}
 }
 
+enum GraphicMenu {
+	EXIT(0), RECT(1), CIRCLE(2), LINE(3);
+
+	GraphicMenu(int value) {
+		this.value = value;
+	}
+
+	private final int value;
+
+	public int value() {
+		return value;
+	}
+}
+
 //*****************************************************************************
 
 /******************************************************************************
@@ -82,6 +96,16 @@ class UI {
 		int radius; // radius 변수 선언
 		radius = scanner.nextInt();// radius 입력
 		return radius;// radius 리턴
+	}
+
+	static GraphicMenu getGraphicMenu(Scanner scanner) {
+		System.out.println("***** Graphic Management Menu ******");
+		System.out.println("* " + GraphicMenu.EXIT.value() + ".Exit  " + GraphicMenu.RECT.value() + ".Rect  "
+				+ GraphicMenu.CIRCLE.value() + ".Circle  " + GraphicMenu.LINE.value() + ".Line *");
+		System.out.println("************************************");
+		System.out.print("Menu item number? ");
+		GraphicMenu menu[] = GraphicMenu.values();
+		return menu[scanner.nextInt()];
 	}
 }
 
@@ -233,29 +257,29 @@ class Circle extends Shape {
 
 //*****************************************************************************
 //double linked list를 위한 인터페이스 선언
-interface LinkedList {
-	public abstract void add_front(Shape value); // 리스트 맨 앞에 삽입
+interface LinkedList<T> {
+	public abstract void add_front(T value); // 리스트 맨 앞에 삽입
 
-	public abstract void add_rear(Shape value); // 리스트 맨 뒤에 삽입
+	public abstract void add_rear(T value); // 리스트 맨 뒤에 삽입
 
 	public abstract boolean isEmpty(); // 리스트가 empty인지 확인
 
-	public abstract Shape remove_front(); // 리스트 맨 앞에서 삭제
+	public abstract T remove_front(); // 리스트 맨 앞에서 삭제
 
-	public abstract Shape remove_rear(); // 리스트 맨 뒤에서 삭제
+	public abstract T remove_rear(); // 리스트 맨 뒤에서 삭제
 }
 
 //*****************************************************************************
 // Shape을 이용한 double linked list 작성
-class ShapeList implements LinkedList {
+class ShapeList<T> implements LinkedList<T> {
 
-	private Vector<Shape> vector;
+	private Vector<T> vector;
 
 	ShapeList() {
 		this.vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
 	}
 
-	public ShapeList(Shape arr[]) {
+	public ShapeList(T arr[]) {
 		this(); // 기존 ShapeList() 생성자를 호출하여 vector를 생성한다. [예제 4-5 참조]
 		for (int i = 0; i < arr.length; i++) {// for문을 이용하여
 			// 배열 arr의 각 원소 arr[i]를 vector에 추가한다.
@@ -264,7 +288,7 @@ class ShapeList implements LinkedList {
 	}
 
 	// 리스트의 맨 앞의 노드를 리턴
-	public Object get_frontValue() {
+	public T get_frontValue() {
 		if (isEmpty()) { // 리스트가 empty 이면
 			return null; // null 리턴
 		} else { // 리스트가 empty가 아니면
@@ -274,7 +298,7 @@ class ShapeList implements LinkedList {
 	}
 
 	// 리스트의 맨 뒤의 노드를 리턴
-	public Object get_rearValue() {
+	public T get_rearValue() {
 		if (isEmpty()) { // 리스트가 empty 이면
 			return null; // null 리턴
 		} else { // 리스트가 empty가 아이면
@@ -285,13 +309,13 @@ class ShapeList implements LinkedList {
 
 	// 리스트 맨 앞에 노드 삽입
 	// 인터페이스 메소드 구현
-	public void add_front(Shape value) {
+	public void add_front(T value) {
 		vector.add(0, value);
 	}
 
 	// 리스트 맨 뒤에 노드 삽입
 	// 인터페이스 메소드 구현
-	public void add_rear(Shape value) {
+	public void add_rear(T value) {
 		vector.add(value);
 	}
 
@@ -304,7 +328,7 @@ class ShapeList implements LinkedList {
 	// 리스트 맨 앞에서 삭제
 	// 인터페이스 메소드 구현
 	// remove_rear 참고
-	public Shape remove_front() {
+	public T remove_front() {
 		if (isEmpty()) { // list가 empty인지 확인
 			return null; // empty 이면 null 리턴
 		}
@@ -313,7 +337,7 @@ class ShapeList implements LinkedList {
 
 	// 리스트 맨 뒤에서 삭제
 	// 인터페이스 메소드 구현
-	public Shape remove_rear() {
+	public T remove_rear() {
 		if (isEmpty()) { // list가 empty인지 확인
 			return null; // empty 이면 null 리턴
 		}
@@ -332,77 +356,77 @@ class ShapeList implements LinkedList {
 	}
 }
 
-interface Factory {
+interface Factory<T> {
 	String msgpoint = "Enter point coordinates (enter two integers) >> ";
 
-	ShapeList generateShapeList(); // ShapeList 객체를 생성한 후 반환한다.
+	ShapeList<T> generateShapeList(); // ShapeList 객체를 생성한 후 반환한다.
 
-	Shape generateShape(Scanner scanner); // 사용자로부터 그래픽 객체 정보를 입력 받은 후
+	T generateShape(Scanner scanner); // 사용자로부터 그래픽 객체 정보를 입력 받은 후
 } // 그래픽 객체를 생성하여 반환함
 
 // 그런 다음 위 Factory 인터페이스를 구현하는 아래 클래스 ShapeFactory를 Main 클래스 앞쪽에 배치하라.
 // 그런 후 기존의 GraphicEditor의 createShape(Scanner scanner) 메소드 내에 있던 코드 전부를
 // 아래 generateShape(Scanner scanner)로 옮겨라. (복사가 아니고)
 
-class ShapeFactory implements Factory {
-	private Shape shapes[] = { // 프로그램 초기에 생성될 그래픽 객체들
-			new Rect(new Point(1, 1), new Point(2, 2)), new Rect(new Point(3, 3), new Point(4, 4)),
-			new Rect(new Point(5, 5), new Point(6, 6)), new Circle(1, new Point(2, 2)), new Circle(3, new Point(4, 4)),
-			new Circle(5, new Point(6, 6)), new Line(new Point(1, 1), new Point(2, 2)),
-			new Line(new Point(3, 3), new Point(4, 4)), new Line(new Point(5, 5), new Point(6, 6)), };
+//class ShapeFactory implements Factory {
+//	private Shape shapes[] = { // 프로그램 초기에 생성될 그래픽 객체들
+//			new Rect(new Point(1, 1), new Point(2, 2)), new Rect(new Point(3, 3), new Point(4, 4)),
+//			new Rect(new Point(5, 5), new Point(6, 6)), new Circle(1, new Point(2, 2)), new Circle(3, new Point(4, 4)),
+//			new Circle(5, new Point(6, 6)), new Line(new Point(1, 1), new Point(2, 2)),
+//			new Line(new Point(3, 3), new Point(4, 4)), new Line(new Point(5, 5), new Point(6, 6)), };
+//
+//	public ShapeList generateShapeList() { // GraphicEditor의 생성자에서 호출함
+//		return new ShapeList(shapes); // 그래픽 객체들을 관리하는 ShapeList 객체 생성
+//		// 이문장은 GraphicEditor 생성자에 의해 호출된다.
+//		// 리턴된 list는 위 shapes[]의 9개의 객체들을 포함하고 있다.
+//	}
+//
+//	public Shape generateShape(Scanner scanner) {
+//		SHAPE_TYPE shapeType;
+//		Point p1, p2;
+//		int radius;
+//
+//		int type = UI.getShape(scanner);
+//
+//		shapeType = SHAPE_TYPE.values()[type];
+//		Shape shape = null;
+//
+//		String msgpoint = "Enter point coordinates (enter two integers) >> ";
+//		String msgradius = "Enter the radius (enter one integer) >> ";
+//
+//		switch (shapeType) {
+//		case Shape_Rect: // 사각형
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			p2 = UI.getWidthHeight(scanner, msgpoint);
+//			shape = new Rect(p1, p2);
+//			break;
+//		case Shape_Circle: // 원
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			radius = UI.getRadius(scanner, msgradius);
+//			shape = new Circle(radius, p1);
+//			break;
+//		case Shape_Line: // 라인
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			p2 = UI.getWidthHeight(scanner, msgpoint);
+//			shape = new Line(p1, p2);
+//			break;
+//
+//		}
+//		return shape;
+//	}
+//}
 
-	public ShapeList generateShapeList() { // GraphicEditor의 생성자에서 호출함
-		return new ShapeList(shapes); // 그래픽 객체들을 관리하는 ShapeList 객체 생성
-		// 이문장은 GraphicEditor 생성자에 의해 호출된다.
-		// 리턴된 list는 위 shapes[]의 9개의 객체들을 포함하고 있다.
-	}
+class GraphicEditor<T extends Shape> {
 
-	public Shape generateShape(Scanner scanner) {
-		SHAPE_TYPE shapeType;
-		Point p1, p2;
-		int radius;
-
-		int type = UI.getShape(scanner);
-
-		shapeType = SHAPE_TYPE.values()[type];
-		Shape shape = null;
-
-		String msgpoint = "Enter point coordinates (enter two integers) >> ";
-		String msgradius = "Enter the radius (enter one integer) >> ";
-
-		switch (shapeType) {
-		case Shape_Rect: // 사각형
-			p1 = UI.getWidthHeight(scanner, msgpoint);
-			p2 = UI.getWidthHeight(scanner, msgpoint);
-			shape = new Rect(p1, p2);
-			break;
-		case Shape_Circle: // 원
-			p1 = UI.getWidthHeight(scanner, msgpoint);
-			radius = UI.getRadius(scanner, msgradius);
-			shape = new Circle(radius, p1);
-			break;
-		case Shape_Line: // 라인
-			p1 = UI.getWidthHeight(scanner, msgpoint);
-			p2 = UI.getWidthHeight(scanner, msgpoint);
-			shape = new Line(p1, p2);
-			break;
-
-		}
-		return shape;
-	}
-}
-
-class GraphicEditor {
-
-	private ShapeList list; // 7-2에서 새로 추가된 멤버
-	private Factory factory; // 7-2에서 새로 추가된 멤버
+	private ShapeList<T> list; // 7-2에서 새로 추가된 멤버
+	private Factory<T> factory; // 7-2에서 새로 추가된 멤버
 	private Scanner scanner; // 7-2에서 새로 추가된 멤버
 
-	private Shape createShape(Scanner scanner) {
+	private T createShape(Scanner scanner) {
 		return factory.generateShape(scanner);
 	}
 
-	public GraphicEditor(Factory factory, Scanner scanner) {
+	public GraphicEditor(Factory<T> factory, Scanner scanner) {
 		this.factory = factory;
 		list = factory.generateShapeList(); // list 초기화
 		this.scanner = scanner;
@@ -412,7 +436,7 @@ class GraphicEditor {
 //		ShapeList list = new ShapeList(); // shape 리스트를 관리할 객체 생성 -> 7-2에서 주석처리한다.
 //		Scanner scanner = new Scanner(System.in); // 사용자 입력을 위한 스캐너 객체 생성 -> 7-2에서 주석처리한다.
 
-		Shape shape = null; // 임시로 사용할 Shape 레퍼런스 변수 선언
+		T shape = null; // 임시로 사용할 Shape 레퍼런스 변수 선언
 		boolean bLoop = true; // 반복문 관리용 부울린 변수
 		Point p1;
 		String msgpoint = "The two integers to move along the X and Y axes (enter two integers) >> ";
@@ -432,20 +456,20 @@ class GraphicEditor {
 				list.add_rear(shape); // 리스트 뒤에 삽입
 				break;
 			case Remove_front: // 리스트 앞에서 삭제
-				shape = (Shape) list.remove_front(); // 리스트 앞에서 삭제 (리턴 값을 shape에 저장)
+				shape = list.remove_front(); // 리스트 앞에서 삭제 (리턴 값을 shape에 저장)
 				break;
 			case Remove_rear: // 리스트 뒤에서 삭제
-				shape = (Shape) list.remove_rear(); // 리스트 뒤에서 삭제 (리턴 값을 shape에 저장)
+				shape = list.remove_rear(); // 리스트 뒤에서 삭제 (리턴 값을 shape에 저장)
 				break;
 			case Move_front: // 리스트 첫번째 객체 이동
-				shape = (Shape) list.get_frontValue(); // get_frontValue 메소드를 이용해서 첫번째 shape 정보 가지고 오기
+				shape = list.get_frontValue(); // get_frontValue 메소드를 이용해서 첫번째 shape 정보 가지고 오기
 				if (shape != null) { // shape 이 널이 아니면
 					p1 = UI.getWidthHeight(scanner, msgpoint); // 이동을 위한 정보 받기, UI.getWidthHeight 이용
 					shape.move(p1.x, p1.y); // 좌표이동
 				}
 				break;
 			case Move_rear: // 리스트 마지막 객체 이동
-				shape = (Shape) list.get_rearValue(); // get_rearValue메소드를 이용해서 마지막 shape 정보 가지고 오기
+				shape = list.get_rearValue(); // get_rearValue메소드를 이용해서 마지막 shape 정보 가지고 오기
 				if (shape != null) { // shape 이 널이 아니면
 					p1 = UI.getWidthHeight(scanner, msgpoint); // 이동을 위한 정보 받기, UI.getWidthHeight 이용
 					shape.move(p1.x, p1.y); // 좌표이동
@@ -463,13 +487,178 @@ class GraphicEditor {
 	}
 }
 
+class RectFactory implements Factory<Rect> // 사각형 객체를 생성하는 클래스
+{
+	private Rect rects[] = { // ShapeList 생성시 자동 삽입될 객체들
+			new Rect(new Point(1, 1), new Point(2, 2)), new Rect(new Point(3, 3), new Point(4, 4)),
+			new Rect(new Point(5, 5), new Point(6, 6)), };
+
+	public ShapeList<Rect> generateShapeList() { // ShapeList 생성
+		return new ShapeList<>(rects);
+		// 이문장은 GraphicEditor 생성자에 의해 호출된다.
+		// 리턴된 list는 위 rects[]의 3개의 Rect 객체들을 포함하고 있다.
+	}
+
+	// 사용자로부터 사각형 정보를 입력 받은 후 사각형 객체를 생생하여 반환함. 기존 ShapeFactory의
+	// generateShape()의 switch 코드들 중 사각형 객체 생성하는 코드만 발췌해서 삽입
+	public Rect generateShape(Scanner scanner) {
+		Point p1 = UI.getWidthHeight(scanner, msgpoint);
+		Point p2 = UI.getWidthHeight(scanner, msgpoint);
+		return new Rect(p1, p2);
+	}
+}
+
+class CircleFactory implements Factory<Circle> // 원 객체를 생성하는 클래스
+{
+	private String msgradius = "Enter the radius (enter one integer) >> ";
+
+	private Circle circles[] = { // ShapeList 생성시 자동 삽입될 객체들
+			new Circle(1, new Point(2, 2)), new Circle(3, new Point(4, 4)), new Circle(5, new Point(6, 6)), };
+
+	@Override
+	public ShapeList<Circle> generateShapeList() { // 1. generateShapeList() 메소드 구현
+		return new ShapeList<>(circles);
+	}
+
+	@Override
+	public Circle generateShape(Scanner scanner) { // 2. generateShape() 메소드 구현할 것
+//		SHAPE_TYPE shapeType;
+		Point p1, p2;
+		int radius;
+
+//		int type = UI.getShape(scanner);
+//
+//		shapeType = SHAPE_TYPE.values()[type];
+		Shape shape = null;
+
+		String msgpoint = "Enter point coordinates (enter two integers) >> ";
+		String msgradius = "Enter the radius (enter one integer) >> ";
+
+//		switch (shapeType) {
+//		case Shape_Rect: // 사각형
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			p2 = UI.getWidthHeight(scanner, msgpoint);
+//			shape = new Rect(p1, p2);
+//			break;
+//		case Shape_Circle: // 원
+		p1 = UI.getWidthHeight(scanner, msgpoint);
+		radius = UI.getRadius(scanner, msgradius);
+		shape = new Circle(radius, p1);
+//			break;
+//		case Shape_Line: // 라인
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			p2 = UI.getWidthHeight(scanner, msgpoint);
+//			shape = new Line(p1, p2);
+//			break;
+//
+//		}
+		return (Circle) shape; // shape가 조상이긴 하지만, shape은 abstract class임. 그래서 캐스팅 해야되는듯?
+	}
+}
+
+// 위 generateShape()은 기존 ShapeFactory의
+// generateShape()의 switch 코드들 중 원 객체 생성하는 코드만 발췌해서 삽입
+
+class LineFactory implements Factory<Line> // 선 객체를 생성하는 클래스
+{
+	private Line lines[] = { // ShapeList 생성시 자동 삽입될 객체들
+			new Line(new Point(1, 1), new Point(2, 2)), new Line(new Point(3, 3), new Point(4, 4)),
+			new Line(new Point(5, 5), new Point(6, 6)), };
+
+	@Override
+	public ShapeList<Line> generateShapeList() { // generateShapeList() 메소드 구현
+		return new ShapeList<>(lines);
+	}
+
+	@Override
+	public Line generateShape(Scanner scanner) { // generateShape() 메소드 구현할 것
+//		SHAPE_TYPE shapeType;
+		Point p1, p2;
+//		int radius;
+
+//		int type = UI.getShape(scanner);
+//
+//		shapeType = SHAPE_TYPE.values()[type];
+		Shape shape = null;
+
+		String msgpoint = "Enter point coordinates (enter two integers) >> ";
+		String msgradius = "Enter the radius (enter one integer) >> ";
+
+//		switch (shapeType) {
+//		case Shape_Rect: // 사각형
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			p2 = UI.getWidthHeight(scanner, msgpoint);
+//			shape = new Rect(p1, p2);
+//			break;
+//		case Shape_Circle: // 원
+//			p1 = UI.getWidthHeight(scanner, msgpoint);
+//			radius = UI.getRadius(scanner, msgradius);
+//			shape = new Circle(radius, p1);
+//			break;
+//		case Shape_Line: // 라인
+		p1 = UI.getWidthHeight(scanner, msgpoint);
+		p2 = UI.getWidthHeight(scanner, msgpoint);
+		shape = new Line(p1, p2);
+//			break;
+//
+//		}
+		return (Line) shape; // shape가 조상이긴 하지만, shape은 abstract class임. 그래서 캐스팅 해야되는듯?
+	}
+
+	// 위 generateShape()은 기존 ShapeFactory의
+	// generateShape()의 switch 코드들 중 Line 객체 생성하는 코드만 발췌해서 삽입
+}
+
+class GraphicManager {
+	private Scanner scanner;
+	private GraphicEditor<Rect> rectEditor;
+	private GraphicEditor<Circle> circleEditor;
+	private GraphicEditor<Line> lineEditor;
+
+	// 각각의 Rect, Circle 또는 Line을 전용으로 관리하는 GraphicEditor< >를 미리 생성해 놓는다.
+	// 각 GraphicEditor는 해당 그래픽 객체를 생성하는 Factory 객체를 가지며,
+	// 이 Factory 객체를 통해 ShapList< >와 해당 그래픽 객체만을 전적으로 생성한다.
+	GraphicManager() {
+		scanner = new Scanner(System.in);
+		rectEditor = new GraphicEditor<Rect>(new RectFactory(), scanner);
+		circleEditor = new GraphicEditor<Circle>(new CircleFactory(), scanner);
+		lineEditor = new GraphicEditor<Line>(new LineFactory(), scanner);
+	}
+
+	// 사용자가 Rect, Circle, Line 중 하나를 선택하게 하고
+	// 선택된 그래픽 객체들을 전용으로 관리하는 GraphicEditor< >의 run() 메소드를 호출한다.
+	void run() {
+		while (true) {
+			GraphicMenu menu = UI.getGraphicMenu(scanner); // 메뉴 항목 읽어 오기
+			if (menu == GraphicMenu.EXIT)
+				break;
+			switch (menu) {
+			case RECT:
+				System.out.println("\nGraphicEditor<Rect>");
+				rectEditor.run();
+				break;
+			case CIRCLE:
+				System.out.println("\nGraphicEditor<Circle>");
+				circleEditor.run();
+				break;
+			case LINE:
+				System.out.println("\nGraphicEditor<Line>");
+				lineEditor.run();
+				break;
+			default:
+				System.out.println("WRONG menu item");
+				break;
+			}
+			System.out.println();
+		}
+		scanner.close();
+	}
+}
+
 public class Main {
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in); // 사용자 입력을 위한 스캐너 객체 생성
-		ShapeFactory shapeFactory = new ShapeFactory();
-		GraphicEditor g = new GraphicEditor(shapeFactory, scanner);
-		g.run();
-		System.out.println("Good Bye");
-		scanner.close();
+		GraphicManager m = new GraphicManager();
+		m.run();
+		System.out.println("\nGood Bye");
 	}
 }
