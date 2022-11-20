@@ -1,4 +1,4 @@
-//package 과제풀이.ch3;
+//package 과제_풀이.ch3;
 //
 //import java.util.InputMismatchException;
 //import java.util.Scanner;

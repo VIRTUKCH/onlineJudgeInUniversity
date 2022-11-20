@@ -1,4 +1,4 @@
-package 과제풀이.ch4_1;
+package 과제_풀이.ch4_1;
 
 class Menu1 {
 	private int id; // 메뉴의 번호

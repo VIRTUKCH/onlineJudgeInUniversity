@@ -1,4 +1,4 @@
-package 과제풀이.ch7_2;
+package 과제_풀이.ch7_1;
 
 import java.util.Scanner;
 import java.util.Vector;
@@ -252,15 +252,7 @@ class ShapeList implements LinkedList {
 	private Vector<Shape> vector;
 
 	ShapeList() {
-		this.vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
-	}
-
-	public ShapeList(Shape arr[]) {
-		this(); // 기존 ShapeList() 생성자를 호출하여 vector를 생성한다. [예제 4-5 참조]
-		for (int i = 0; i < arr.length; i++) {// for문을 이용하여
-			// 배열 arr의 각 원소 arr[i]를 vector에 추가한다.
-			vector.add(arr[i]);
-		}
+		vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
 	}
 
 	// 리스트의 맨 앞의 노드를 리턴
@@ -332,32 +324,9 @@ class ShapeList implements LinkedList {
 	}
 }
 
-interface Factory {
-	String msgpoint = "Enter point coordinates (enter two integers) >> ";
+class GraphicEditor {
+	private Shape createShape(Scanner scanner) {
 
-	ShapeList generateShapeList(); // ShapeList 객체를 생성한 후 반환한다.
-
-	Shape generateShape(Scanner scanner); // 사용자로부터 그래픽 객체 정보를 입력 받은 후
-} // 그래픽 객체를 생성하여 반환함
-
-// 그런 다음 위 Factory 인터페이스를 구현하는 아래 클래스 ShapeFactory를 Main 클래스 앞쪽에 배치하라.
-// 그런 후 기존의 GraphicEditor의 createShape(Scanner scanner) 메소드 내에 있던 코드 전부를
-// 아래 generateShape(Scanner scanner)로 옮겨라. (복사가 아니고)
-
-class ShapeFactory implements Factory {
-	private Shape shapes[] = { // 프로그램 초기에 생성될 그래픽 객체들
-			new Rect(new Point(1, 1), new Point(2, 2)), new Rect(new Point(3, 3), new Point(4, 4)),
-			new Rect(new Point(5, 5), new Point(6, 6)), new Circle(1, new Point(2, 2)), new Circle(3, new Point(4, 4)),
-			new Circle(5, new Point(6, 6)), new Line(new Point(1, 1), new Point(2, 2)),
-			new Line(new Point(3, 3), new Point(4, 4)), new Line(new Point(5, 5), new Point(6, 6)), };
-
-	public ShapeList generateShapeList() { // GraphicEditor의 생성자에서 호출함
-		return new ShapeList(shapes); // 그래픽 객체들을 관리하는 ShapeList 객체 생성
-		// 이문장은 GraphicEditor 생성자에 의해 호출된다.
-		// 리턴된 list는 위 shapes[]의 9개의 객체들을 포함하고 있다.
-	}
-
-	public Shape generateShape(Scanner scanner) {
 		SHAPE_TYPE shapeType;
 		Point p1, p2;
 		int radius;
@@ -390,27 +359,11 @@ class ShapeFactory implements Factory {
 		}
 		return shape;
 	}
-}
-
-class GraphicEditor {
-
-	private ShapeList list; // 7-2에서 새로 추가된 멤버
-	private Factory factory; // 7-2에서 새로 추가된 멤버
-	private Scanner scanner; // 7-2에서 새로 추가된 멤버
-
-	private Shape createShape(Scanner scanner) {
-		return factory.generateShape(scanner);
-	}
-
-	public GraphicEditor(Factory factory, Scanner scanner) {
-		this.factory = factory;
-		list = factory.generateShapeList(); // list 초기화
-		this.scanner = scanner;
-	}
 
 	public void run() {
-//		ShapeList list = new ShapeList(); // shape 리스트를 관리할 객체 생성 -> 7-2에서 주석처리한다.
-//		Scanner scanner = new Scanner(System.in); // 사용자 입력을 위한 스캐너 객체 생성 -> 7-2에서 주석처리한다.
+		ShapeList list = new ShapeList(); // shape 리스트를 관리할 객체 생성
+
+		Scanner scanner = new Scanner(System.in); // 사용자 입력을 위한 스캐너 객체 생성
 
 		Shape shape = null; // 임시로 사용할 Shape 레퍼런스 변수 선언
 		boolean bLoop = true; // 반복문 관리용 부울린 변수
@@ -459,17 +412,14 @@ class GraphicEditor {
 				bLoop = false; // 끝내기
 			}
 		}
-//		scanner.close(); -> 7-2에서 주석처리한다.
+		scanner.close();
 	}
 }
 
 public class Main {
 	public static void main(String[] args) {
-		Scanner scanner = new Scanner(System.in); // 사용자 입력을 위한 스캐너 객체 생성
-		ShapeFactory shapeFactory = new ShapeFactory();
-		GraphicEditor g = new GraphicEditor(shapeFactory, scanner);
-		g.run();
+		GraphicEditor g = new GraphicEditor(); // GraphicEditor 생성
+		g.run(); // 실행 함수 호출
 		System.out.println("Good Bye");
-		scanner.close();
 	}
 }

@@ -1,4 +1,4 @@
-//package 과제풀이.ch4_2;
+//package 과제_풀이.ch4_2;
 //
 //import java.util.Scanner;
 //

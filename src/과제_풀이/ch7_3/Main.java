@@ -1,4 +1,4 @@
-package 과제풀이.ch7_3;
+package 과제_풀이.ch7_3;
 
 import java.util.Scanner;
 import java.util.Vector;

@@ -1,7 +1,35 @@
-package 과제풀이.ch7_1;
+package 과제_풀이.ch5;
 
 import java.util.Scanner;
-import java.util.Vector;
+
+/******************************************************************************
+ 이번 프로젝트는 교재 321페이지 실습문제 12와
+ 교재 293페이지 교재 284 페이지를 참고하여 새로운 응용 프로그램을 작성하는 것이다.
+
+ Shape을 linked list로 관리하기 위해서 double linked list를 이용한다.
+ double lined list의 인터페이스가 interface LinkedList로 선언되었다.
+
+ Shape을 linked list로 관리하기 위해서  ShapeList라는 클래스를 작성하라.
+ ShapeList는 인터페이스 LinkedList를 구현하며, Linked list의 데이터는  Node 클래스를 이용하여 관리한다.
+ Node 클래스는 리스트 구현을 위해서 전(prev), 후(next)를 연결할 수 있는 레퍼런스가 멤버 변수로 있으며,
+ Shape 데이터를 저장할 value라는 멈버 변수가 있다.
+
+ Shape의 종류에는 Rect, Line, Circle이 있으며, 각각은 Shape 클래스를 상속 받는다.
+
+ ShapeList에는 인터페이스 LinkedList의 메소드와 추가적으로  get_frontValue(), get_rearValue()가 있다.
+
+ 자바의 모든 클래스는 최상위 클래스로 Object 클래스를 상속 받으며,
+ Object 클래스에는 객체가 자신의 정보를 출력하기 위한  public String toString() 메소드가 있다.
+
+ ShapeList, Line, Rect, Circle 등의 클래스에 자신의 정보를 출력하기 위해서
+ Object 클래스의  public String toString() 메소드 오버라이딩 해서 작성한다.
+****************************************************************************/
+
+/**************************************************************************
+ * 메뉴 선택에서 사용할 메뉴 이름에 대한 열거형 선언 MAIN_MENU:연산 정의:연산은 리스트에 대한 연산을 정의
+ * 삽입(앞),삽입(뒤),삭제(앞),삭제(뒤),이동(맨 앞 데이터),이동(맨 뒤 데이터),리스트 출력,종료 SHAPE_TYPE:생성할
+ * Shape Rect,Circel,Line
+ *************************************************************************/
 
 enum MAIN_MENU {
 	Insert_front(0), Insert_rear(1), Remove_front(2), Remove_rear(3), Move_front(4), Move_rear(5), list_all(6), Exit(7);
@@ -37,7 +65,6 @@ enum SHAPE_TYPE {
  * UI 클래스 선언 및 구현 모든 멤버 함수들이 모두 정적(static) 함수임 입력과 출력을 담당하는 전역 함수들의 모음 static 함수
  * 호출은 예제 4-11 참조
  *******************************************************************************/
-
 class UI {
 	// msg를 출력한 후 정수 값 하나를 입력 받아 리턴
 	// MAIN_MENU 선택을 위한 메소드
@@ -45,7 +72,7 @@ class UI {
 		System.out.println("Select one operation  "); // 안내 문자 출력
 		System.out.print("Insert(Front):" + MAIN_MENU.Insert_front.value() + ", " + "Insert(Rear):"
 				+ MAIN_MENU.Insert_rear.value() + ", " + "Remove(Front):" + MAIN_MENU.Remove_front.value() + ", "
-				+ "Remove(Rear):" + MAIN_MENU.Remove_rear.value() + "\n" + "Move(Front):" + MAIN_MENU.Move_front.value()
+				+ "Remove(Rear):" + MAIN_MENU.Remove_rear.value() + ", " + "Move(Front):" + MAIN_MENU.Move_front.value()
 				+ ", " + "Move(Rear):" + MAIN_MENU.Move_rear.value() + ", " + "Print List:" + MAIN_MENU.list_all.value()
 				+ ", " + "Exit:" + MAIN_MENU.Exit.value() + " >> "); // 연산 종류 출력
 
@@ -78,7 +105,7 @@ class UI {
 	// 안내 msg를 매개 변수로 받아 출력하고
 	// Circle 객체의 반지름 하나를 입력 받아 리턴
 	static public int getRadius(Scanner scanner, String msg) {
-		System.out.print(msg); // msg 출력 // "Enter the radius (enter one integer) >> ";
+		System.out.println(msg); // msg 출력 // "Enter the radius (enter one integer) >> ";
 		int radius; // radius 변수 선언
 		radius = scanner.nextInt();// radius 입력
 		return radius;// radius 리턴
@@ -232,36 +259,56 @@ class Circle extends Shape {
 }
 
 //*****************************************************************************
+// linked list에서 자료 및 링크를 관리할 node 선언
+class Node {
+	public Node next;
+	public Node prev;
+
+	private Object value; // 데이터 (업캐스팅을 통해서 관리 함, 모든 클래스의 최상위 클래스인 Object 클래스로 업캐스팅)
+
+	public Node(Object value) {
+		next = null;
+		prev = null;
+		this.value = value;
+	} // 생성자
+
+	public Object getValue() {
+		return value;
+	} // 현재 Node의 데이터 리턴
+};
+
+//*****************************************************************************
 //double linked list를 위한 인터페이스 선언
 interface LinkedList {
-	public abstract void add_front(Shape value); // 리스트 맨 앞에 삽입
+	public abstract void add_front(Object value); // 리스트 맨 앞에 삽입
 
-	public abstract void add_rear(Shape value); // 리스트 맨 뒤에 삽입
+	public abstract void add_rear(Object value); // 리스트 맨 뒤에 삽입
 
 	public abstract boolean isEmpty(); // 리스트가 empty인지 확인
 
-	public abstract Shape remove_front(); // 리스트 맨 앞에서 삭제
+	public abstract Object remove_front(); // 리스트 맨 앞에서 삭제
 
-	public abstract Shape remove_rear(); // 리스트 맨 뒤에서 삭제
+	public abstract Object remove_rear(); // 리스트 맨 뒤에서 삭제
 }
 
 //*****************************************************************************
 // Shape을 이용한 double linked list 작성
 class ShapeList implements LinkedList {
 
-	private Vector<Shape> vector;
+	private Node head; // double linked 리스트의 맨 처음 노드를 가리키는 포인터
+	private Node tail; // double linked 리스트의 맨 마지막 노드를 가리키는 포인터
 
 	ShapeList() {
-		vector = new Vector<>();// ShapeList() 생성자에서 Vector< Shape > 객체를 생성해서 초기화하라.
-	}
+		head = null;
+		tail = null;
+	} // 생성자: 멤버 초기화
 
 	// 리스트의 맨 앞의 노드를 리턴
 	public Object get_frontValue() {
 		if (isEmpty()) { // 리스트가 empty 이면
 			return null; // null 리턴
 		} else { // 리스트가 empty가 아니면
-			return vector.get(0); // 맨 앞의 데이터 리턴, head를 이용하여 getValue 메소드 호출
-			// empty가 아닐 경우 Vector< T >의 적절한 메소드를 활용하여 vector의 첫번째 원소를 반환
+			return head.getValue(); // 맨 앞의 데이터 리턴, head를 이용하여 getValue 메소드 호출
 		}
 	}
 
@@ -270,54 +317,123 @@ class ShapeList implements LinkedList {
 		if (isEmpty()) { // 리스트가 empty 이면
 			return null; // null 리턴
 		} else { // 리스트가 empty가 아이면
-			return vector.lastElement(); // 맨 뒤의 데이터 리턴, tail을 이용하여 getValue 메소드 호출
-			// empty가 아닐 경우 Vector< T >의 적절한 메소드를 활용하여 vector의 마지막 원소를 반환
+			return tail.getValue(); // 맨 뒤의 데이터 리턴, tail을 이용하여 getValue 메소드 호출
 		}
 	}
 
 	// 리스트 맨 앞에 노드 삽입
 	// 인터페이스 메소드 구현
-	public void add_front(Shape value) {
-		vector.add(0, value);
+	public void add_front(Object value) {
+
+//		Node node = new Node(value); // 노드를 생성합니다.
+//		node.next = head; // 새로운 노드의 다음 노드로 헤드를 지정합니다.
+//		// head = node.next로 해야하나?
+//
+//		if (!isEmpty()) { // 기존에 노드가 있었다면
+//			head.prev = node; // 현재 헤드의 이전 노드로 새로운 노드를 지정
+//		}
+//
+//		head = node; // 헤드로 새로운 노드를 지정
+//
+//		// 여기서 문제 발생
+//		if (head.next == null) { // 노드가 하나인지 확인 - 왜 확인하는거지?
+//			tail = head; // tail 에 head 대입
+//		}
+		if (isEmpty()) {
+			Node newNode = new Node(value);
+			this.head = newNode;
+			this.tail = newNode;
+		} else {
+			Node newNode = new Node(value);
+			this.head.prev = newNode;
+			newNode.next = this.head;
+			this.head = newNode;
+			if (this.head.next == null) {
+				this.tail = this.head;
+			}
+		}
 	}
 
 	// 리스트 맨 뒤에 노드 삽입
 	// 인터페이스 메소드 구현
-	public void add_rear(Shape value) {
-		vector.add(value);
+	public void add_rear(Object value) {
+		if (isEmpty()) { // 리스트의 노드가 없다면 첫번째 노드를 추가하는 메소드를 사용합니다.
+			add_front(value);
+		} else {
+			Node newNode = new Node(value); // 노드를 생성합니다.
+			tail.next = newNode; // tail의 다음 노드로 생성한 노드를 지정합니다.
+			newNode.prev = tail; // 새로운 노드의 이전 노드로 tail을 지정합니다.
+			tail = newNode; // 마지막 노드를 갱신합니다.
+		}
 	}
 
 	// list 가 empty인지 확인
 	// 인터페이스 메소드 구현
 	public boolean isEmpty() {
-		return vector.isEmpty();
+		if (head == null && tail == null) { // head 와 tail 이 모두 null 이면
+			return true; // true 리턴
+		} else { // 그렇지 않으면
+			return false; // false 리턴
+		}
 	}
 
 	// 리스트 맨 앞에서 삭제
 	// 인터페이스 메소드 구현
 	// remove_rear 참고
-	public Shape remove_front() {
+	public Object remove_front() {
 		if (isEmpty()) { // list가 empty인지 확인
 			return null; // empty 이면 null 리턴
 		}
-		return vector.remove(0);
+
+		Node temp = head; // 첫번째 노드를 temp로 지정하고
+		head = null; // head 값 지우기 : 자바에서는 없어도 되는 부분
+		head = temp.next;// head의 값을 두번째 노드로 변경
+
+		Object returnData = temp.getValue();// 이미 temp에 들어가있는거 아닌가?? // temp로부터 리턴할 값을 임시 변수(Object 타입)에 넣기
+		temp = null;// temp 지우기 (temp=null)
+
+		if (head != null) { // head가 널이 아니면
+			head.prev = null; // head의 이전 노드를 null로 지정
+		}
+
+		return returnData; // 삭제된 데이터 리턴 (Object 타입)
 	}
 
 	// 리스트 맨 뒤에서 삭제
 	// 인터페이스 메소드 구현
-	public Shape remove_rear() {
-		if (isEmpty()) { // list가 empty인지 확인
+	public Object remove_rear() { // 이미 코드가 짜여져 있었음
+		if (isEmpty()) // list가 empty인지 확인
 			return null; // empty 이면 null 리턴
-		}
-		return vector.remove(vector.size() - 1);
+
+		Node temp = tail; // tail의 값을 임시변수(temp)에 저장
+		tail = null; // tail 지우기 (tail = null) : 자바에서는 없어도 되는 부분
+		tail = temp.prev; // tail에 임시변수의 prev 넣기
+		if (tail != null)
+			tail.next = null; // tail의 next에 null 넣기
+		else
+			head = null; // tail이 null이면 head도 null이 되어라
+
+		Object returnData = temp.getValue(); // temp로부터 리턴할 값을 임시 변수(Object 타입)에 넣기
+		return returnData; // 데이터 리턴 (Object 타입)
 	}
 
 	// 메소드 오버라이딩, Object 클래스의 public String toString()을 오버라이딩
 	@Override
 	public String toString() {
 		StringBuffer result = new StringBuffer(""); // 가변형 String 변수 result 선언
-		for (int i = 0; i < vector.size(); i++) {
-			result.append("[" + vector.get(i) + "]\n");
+		if (!isEmpty()) { // 리스가 empty가 아니면
+			Node node = head; // head를 새로운 변수 node에 넣기
+
+			while (node != null) { // node가 null 이 아닌 동안
+				result.append("["); // result에 "[" 붙이기
+				result.append(node.getValue()); // result에 node.getValue() 호출해서 결과 붙이기
+				result.append("]"); // result에 "]" 붙이기
+				if (node.next == null) // node.next 가 null 이면
+					result.append("\r\n"); // result에 "\r\n" 붙이기
+				else
+					result.append(", "); // result에 ", " 붙이기
+				node = node.next; // node = node.next 로 다음 노드로 이동
+			}
 		}
 
 		return result.toString();
@@ -371,7 +487,6 @@ class GraphicEditor {
 		String msgpoint = "The two integers to move along the X and Y axes (enter two integers) >> ";
 
 		while (bLoop) {
-			System.out.print(list);
 			int n = UI.getMainMenu(scanner); // 메뉴 정보 읽어 오기
 			MAIN_MENU menu = MAIN_MENU.values()[n]; // 열겨형의 정보로 변환
 
@@ -406,7 +521,7 @@ class GraphicEditor {
 				break;
 
 			case list_all: // 리스트 정보 출력
-//				System.out.print(list.toString());
+				System.out.print(list.toString());
 				break;
 			case Exit:
 				bLoop = false; // 끝내기
