@@ -1,4 +1,4 @@
-package OperatingSystem; // 제출 전 주석 처리 요함
+package 운영체제_스케줄링_과제_풀이; // 제출 전 주석 처리 요함
 
 import java.util.Scanner;
 
