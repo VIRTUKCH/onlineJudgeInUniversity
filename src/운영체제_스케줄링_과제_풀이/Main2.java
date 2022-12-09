@@ -70,7 +70,7 @@ class Jobs {
 
 }
 
-public class schedulingHomework1 {
+public class Main2 {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Jobs jobs = null;
