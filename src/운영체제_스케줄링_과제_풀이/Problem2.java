@@ -1,3 +1,4 @@
+package 운영체제_스케줄링_과제_풀이;
 //package 운영체제_스케줄링_과제_풀이; // 제출 전 주석 처리 요함
 //
 //import java.util.LinkedList;
@@ -10,8 +11,7 @@
 //	private int executionTime; // 프로세스의 현재까지 실행된 시간
 //
 //	// 문제 2-3: 프로세스의 각 필드를 초기화함
-//	Process(String name, int arrivalTime, int serviceTime) {
-////        클래스의 해당 멤버들을 초기화하라.
+//	Process(String name, int arrivalTime, int serviceTime) { // 클래스의 해당 멤버들을 초기화하라.
 //		this.name = name; // 프로세스 이름
 //		this.arrivalTime = arrivalTime; // 프로세스 도착시간
 //		this.serviceTime = serviceTime; // 프로세스 서비스시간, 실행해야 할 총 시간
@@ -47,9 +47,9 @@
 //	// 문제 2-3: cTime은 현재시간임. 프로세스의 응답비율(Response Ratio)를 계산해 반환함
 //	// 계산시 double로 변환 후 계산해야 함; 위 getWaitingTime(int cTime)을 활용할 것
 //	public double getResponeRatioTime(int cTime) {
-//		double returnValue = (((double) getWaitingTime(cTime) + (double) serviceTime) / (double) serviceTime);
+//		double responeRatioTime = (((double) getWaitingTime(cTime) + (double) serviceTime) / (double) serviceTime);
 //		// getWaitingTime = 지금까지 ready Queue에서 기다린 시간을 반환함.
-//		return returnValue;
+//		return responeRatioTime;
 //	}
 //
 //	// 프로세스의 이름을 반환함
@@ -57,13 +57,13 @@
 //		return name;
 //	}
 //
-//	public void println(int cTime) {
+//	public void println(int cTime) { // 이름 / 실행해야 할 총 시간 / 현재까지 실행한 시간 / 남은 시간 / 기다린 시간 / 대기 시간의 비율 / 끝났는지의 여부
 //		System.out.printf("%s: s(%d) e(%d) r(%d) w(%2d) rr(%5.2f) f(%s)\n", name, getServiceTime(), executionTime,
 //				getRemainingTime(), getWaitingTime(cTime), getResponeRatioTime(cTime), isFinished());
 //	}
 //
-//	public String toString() {
-//		return String.format("%s: a(%2d) s(%d) e(%d)", name, arrivalTime, serviceTime, executionTime);
+//	public String toString() { // 이름 / 도착시간 / 실행해야 할 총 시간 / 현재까지 실행한 시간
+//		return String.format("%s: a(%2d) s(%d) e(%d)", name, arrivalTime, serviceTime, executionTime);f
 //	}
 //}
 //
