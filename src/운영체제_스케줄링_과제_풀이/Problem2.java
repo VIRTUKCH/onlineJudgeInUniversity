@@ -129,10 +129,10 @@
 //		System.out.println("Create processes and print their member data.");
 //		for (int i = 0; i < processNames.length; ++i) {
 //			Process p = new Process(processNames[i], arrivalTimes[i], serviceTimes[i]);
-//			rq.add(p);
+//			rq.add(p); // 링크드 리스트에 추가한다.
 //			System.out.println(p); // 각 프로세스의 멤버 변수들을 출력한다.
 //		}
-//		for (Process p : rq) {
+//		for (Process p : rq) { // 링크드 리스트에서 하나씩 빼다가 p라는 참조변수로 컨트롤한다.
 //			int eTime = p.getServiceTime(); // 이 값이 실행시간이 되도록 할 것이다.
 //			if (eTime > 3) // 서비스시간이 3보다 큰 경우 실행시간을 반으로 설정하기 위함임
 //				eTime = (int) (eTime * 0.5 + 0.5); // 실행시간의 반을 반올림
