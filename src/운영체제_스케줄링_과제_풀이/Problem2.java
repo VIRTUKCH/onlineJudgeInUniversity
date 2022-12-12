@@ -1,4 +1,3 @@
-package 운영체제_스케줄링_과제_풀이;
 //package 운영체제_스케줄링_과제_풀이; // 제출 전 주석 처리 요함
 //
 //import java.util.LinkedList;
@@ -63,7 +62,7 @@ package 운영체제_스케줄링_과제_풀이;
 //	}
 //
 //	public String toString() { // 이름 / 도착시간 / 실행해야 할 총 시간 / 현재까지 실행한 시간
-//		return String.format("%s: a(%2d) s(%d) e(%d)", name, arrivalTime, serviceTime, executionTime);f
+//		return String.format("%s: a(%2d) s(%d) e(%d)", name, arrivalTime, serviceTime, executionTime);
 //	}
 //}
 //
@@ -157,7 +156,7 @@ package 운영체제_스케줄링_과제_풀이;
 //
 //}
 //
-//public class Main2 {
+//public class Problem2 {
 //	public static void main(String[] args) {
 //		Scanner scan = new Scanner(System.in);
 //		Jobs jobs = null;

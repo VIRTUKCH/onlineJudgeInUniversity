@@ -1,5 +1,4 @@
-package 운영체제_스케줄링_과제_풀이;
-//package 운영체제_스케줄링_과제_풀이; // 제출 전 주석 처리 요함
+//package 운영체제_스케줄링_과제_풀이;
 //
 //import java.util.LinkedList;
 //import java.util.Scanner;
@@ -158,7 +157,7 @@ package 운영체제_스케줄링_과제_풀이;
 //
 //}
 //
-//public class Main3 {
+//public class Problem3 {
 //	public static void main(String[] args) {
 //		Scanner scan = new Scanner(System.in);
 //		Jobs jobs = null;
