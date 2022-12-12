@@ -461,7 +461,7 @@ class ComputerSystem {
 	}
 }
 
-public class Problem8 {
+public class Main {
 	public static void main(String[] args) {
 		Scanner scan = new Scanner(System.in);
 		Jobs jobs = new Jobs(); // 일단 jobs 객체를 생성한다는 점에서 이전과는 다르다. 또한, 디폴트 생성자임.
