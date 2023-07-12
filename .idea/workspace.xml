@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8b281619-d64d-4310-900a-d65fcb986289" name="Changes" comment="" />
+    <list default="true" id="8b281619-d64d-4310-900a-d65fcb986289" name="Changes" comment="&#10;&#10;#ex) Feat : 관심지역 알림 ON/OFF 기능 추가(#123) // 새로운 기능을 추가할 때&#10;#ex) Fix : 책에서 가능한 페이지 조합 오류 수정 // 버그를 수정할 때&#10;#ex) Docs : Documentation // 문서 수정(README파일 수정할 때가 아닐까?)&#10;#ex) Style: 변수명 변경 및 코드 스타일 수정 // 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우&#10;#ex) Refactor : 이메일 확인 정규표현식으로 변경 // 코드 리팩토링&#10;#ex) Test : When adding missing test // 테스트를 더하는것을 깜빡했을 때&#10;#ex) Comment : 함수 주석 추가&#10;&#10;#--------------------------------------------&#10;&#10;# &lt;1. 태그와 제목 쓰는 방법&gt;&#10;# 타입은 태그와 제목으로 구성되며, 태그는 영어로 쓰며 첫 문자는 대문자로 한다.&#10;# [태그: 제목]의 형태로 작성한다.&#10;# feat : 새로운 기능 추가&#10;# fix : 버그 수정&#10;# docs : 문서 수정&#10;# style : 코드 포맷팅, 세미콜론 누락, 코드 변경이 없는 경우&#10;# refactor : 코드 리팩토링&#10;# test : 테스트 코드, 리펙토링 테스트 코드 추가&#10;# chore : 기타 변경 사항(실제 기능과 무관한 빌드, 패키지 수정. ex) gitcommit 파일 수정 등)&#10;# ex) bug: wrong parameter&#10;&#10;# My Commit Message Template&#10;# 1. 당신이 왜 이렇게 바꾸었는지에 먼저 주목하라.&#10;# 2. 바꾸기 전에 무엇을 했는지 (그리고 무엇이 잘못 동작했는지),&#10;# 3. 지금은 어떻게 동작하는지,&#10;# 4. 그리고 왜 당신이 그렇게 바꾸기로 했는지 적어라&#10;&#10;# 기본적인 커밋 메시지의 구조 : 제목 / 본문 / 꼬리말. 각 파트는 빈 줄을 두어 구분한다&#10;&#10;# &lt;2. 본문을 쓰는 방법&gt;&#10;# 본문은 한 줄 당 72자 내로 작성한다&#10;# 본문 내용은 양을 신경쓰지 않고 최대한 상세하게 작성한다&#10;# 본문 내용은 어떻게 변경했는지 보다 무엇을 변경했는지 또는 왜 변경했는지를 설명한다.&#10;&#10;# &lt;좋은 커밋 메세지를 작성하기 위한 7가지 법칙&gt;&#10;# 1. 제목과 본문은 한 줄 띄워 분리한다&#10;# 2. 제목은 영문 기준 50자 이내로 한다&#10;# 3. 제목의 첫 글자를 대문자로 한다&#10;# 4. 제목을 '.'으로 마치지 않도록 한다&#10;# 5. 제목은 동사가 가장 앞에 나오도록 명령문으로 한다&#10;# 6. 본문은 영문 기준 72자마다 줄을 바꾼다&#10;# 7. 본문은 어떻게 보다 무엇을, 왜에 맞추어서 작성한다&#10;&#10;# &lt;3. 꼬릿말을 쓰는 방법&gt;&#10;# 꼬릿말은 선택이며, 이슈 트래커 ID를 작성한다.&#10;# [유형: #이슈 번호]의 형식으로 작성하는 것이 관례이다.&#10;# 여러개의 이슈 번호를 적을 때에는 쉽표(,)로 구분한다&#10;&#10;# &lt;종합적인 Commit 예시&gt;&#10;&#10;# Feat: &quot;회원 가입 기능 구현&quot;&#10;&#10;# SMS, 이메일 중복확인 API 개발&#10;&#10;# Resolves: #123&#10;# Ref: #456&#10;# Related to: #48, #45&#10;&#10;# ------------------------------------------끝------------------------------------------" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -25,14 +25,14 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/kwj47/eclipse-workspace/JAVA"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kwj47/eclipse-workspace/JAVA&quot;
   }
-}]]></component>
+}</component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -42,6 +42,7 @@
       <option name="presentableId" value="Default" />
       <updated>1669963265160</updated>
       <workItem from="1669963268851" duration="9000" />
+      <workItem from="1677554815453" duration="17000" />
     </task>
     <servers />
   </component>

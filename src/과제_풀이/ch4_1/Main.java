@@ -41,7 +41,7 @@ class Menu1 {
 }
 
 class Menuboard1 {
-	static Menu1[] boards; // 이름이 좋지 않음
+	static Menu1[] boards;
 	// 왜 static으로 해야할까? -> static 메서드는 static 멤버 변수만 사용할 수 있다.
 	// 어차피 객체생성도 안하고 사용할 메서드일텐데
 	// 또한, 이렇게 클래스가 다른 클래스에 들어와있는 경우를 '포함 관계'라고 한다.
